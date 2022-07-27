@@ -65,34 +65,34 @@ TCP 9100 — для node_exporter
 ``/usr/local/bin/prometheus --config.file /etc/prometheus/prometheus.yml --storage.tsdb.path /var/lib/prometheus/ --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries``  
 
 Открываем веб-браузер и переходим по адресу  
-``http://<IP-адрес сервера>:9090``
-*Должна загрузиться консоль Prometheus*  
+``http://<IP-адрес сервера>:9090``  
+*- должна загрузиться консоль Prometheus*  
 
 #### Автозапуск  
 Для настройки автоматического старта Prometheus создадим новый юнит в systemd  
 ``vi /etc/systemd/system/prometheus.service``
 
-[Unit]
-Description=Prometheus Service
-After=network.target
-
-[Service]
-User=prometheus
-Group=prometheus
-Type=simple
-ExecStart=/usr/local/bin/prometheus \
---config.file /etc/prometheus/prometheus.yml \
---storage.tsdb.path /var/lib/prometheus/ \
---web.console.templates=/etc/prometheus/consoles \
---web.console.libraries=/etc/prometheus/console_libraries
-ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target  
+>[Unit]
+>Description=Prometheus Service
+>After=network.target
+>
+>[Service]
+>User=prometheus
+>Group=prometheus
+>Type=simple
+>ExecStart=/usr/local/bin/prometheus \
+>--config.file /etc/prometheus/prometheus.yml \
+>--storage.tsdb.path /var/lib/prometheus/ \
+>--web.console.templates=/etc/prometheus/consoles \
+>--web.console.libraries=/etc/prometheus/console_libraries
+>ExecReload=/bin/kill -HUP $MAINPID
+>Restart=on-failure
+>
+>[Install]
+>WantedBy=multi-user.target  
 
 Перечитываем конфигурацию systemd  
-``systemctl daemon-reload  
+``systemctl daemon-reload``  
 Разрешаем автозапуск  
 ``systemctl enable prometheus``  
 
