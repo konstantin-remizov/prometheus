@@ -43,14 +43,14 @@ TCP 9100 — для node_exporter
 Перейдем в каталог с распакованными файлами  
 ``cd prometheus-*.linux-amd64``  
 
-Распределим файлы по каталогам:  
+Распределим файлы по каталогам  
 ``cp prometheus promtool /usr/local/bin/``  
 ``cp -r console_libraries consoles prometheus.yml /etc/prometheus``  
 
 #### Назначение прав
 Создаем пользователя, от которого будем запускать систему мониторинга  
 ``useradd --no-create-home --shell /bin/false prometheus``  
-* мы создали пользователя "prometheus" без домашней директории и без возможности входа в консоль сервера.  
+*мы создали пользователя "prometheus" без домашней директории и без возможности входа в консоль сервера.*  
 
 Задаем владельца для каталогов, которые мы создали на предыдущем шаге  
 ``chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus``  
