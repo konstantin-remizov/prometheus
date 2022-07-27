@@ -93,6 +93,7 @@ TCP 9100 — для node_exporter
 
 Перечитываем конфигурацию systemd  
 ``systemctl daemon-reload``  
+
 Разрешаем автозапуск  
 ``systemctl enable prometheus``  
 
@@ -102,82 +103,92 @@ TCP 9100 — для node_exporter
 Запускаем службу:  
 ``systemctl start prometheus``  
 
-... и проверяем, что она запустилась корректно  
-``systemctl status prometheus`` 
+*... и проверяем, что она запустилась корректно*  
+``systemctl status prometheus``  
 
 
 ## Установка Node_Exporter
 
 Скачать архив  
 ``wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz``  
+
 Распаковать  
 ``tar -xvf node_exporter-1.3.1.linux-amd64.tar.gz``  
+
 Перейдем в каталог с распакованными файлами  
 ``cd node_exporter-*.linux-amd64``  
+
 Копируем исполняемый файл в bin  
 ``cp node_exporter /usr/local/bin/``  
+
 Создаем пользователя nodeusr  
 ``useradd --no-create-home --shell /bin/false nodeusr``  
+
 Задаем владельца для исполняемого файла  
 ``chown -R nodeusr:nodeusr /usr/local/bin/node_exporter``  
-### Автозапуск
+
+#### Автозапуск
 Создаем файл node_exporter.service в systemd  
 ``vi /etc/systemd/system/node_exporter.service``  
 
-[Unit]
-Description=Node Exporter Service
-After=network.target
-
-[Service]
-User=nodeusr
-Group=nodeusr
-Type=simple
-ExecStart=/usr/local/bin/node_exporter
-ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target  
+>[Unit]  
+>Description=Node Exporter Service  
+>After=network.target  
+>  
+>[Service]  
+>User=nodeusr  
+>Group=nodeusr  
+>Type=simple  
+>ExecStart=/usr/local/bin/node_exporter  
+>ExecReload=/bin/kill -HUP $MAINPID  
+>Restart=on-failure  
+>  
+>[Install]  
+>WantedBy=multi-user.target   
 
 Перечитываем конфигурацию systemd  
 ``systemctl daemon-reload``  
+
 Разрешаем автозапуск  
 ``systemctl enable node_exporter``  
+
 Запускаем службу  
-``systemctl start node_exporter``
+``systemctl start node_exporter``  
+
 Открываем веб-браузер и переходим по адресу  
 ``http://<IP-адрес сервера или клиента>:9100/metrics``  
-— мы увидим метрики, собранные node_exporter
+*— мы увидим метрики, собранные node_exporter*
 
 
 ## Установка Grafana  
 
 Создаем файл конфигурации репозитория для графаны  
-``vi /etc/yum.repos.d/grafana.repo``
+``vi /etc/yum.repos.d/grafana.repo``  
 
-[grafana]
-name=grafana
-baseurl=https://packages.grafana.com/oss/rpm
-repo_gpgcheck=1
-enabled=1
-gpgcheck=1
-gpgkey=https://packages.grafana.com/gpg.key
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt  
+>[grafana]  
+>name=grafana  
+>baseurl=https://packages.grafana.com/oss/rpm  
+>repo_gpgcheck=1  
+>enabled=1  
+>gpgcheck=1  
+>gpgkey=https://packages.grafana.com/gpg.key  
+>sslverify=1  
+>sslcacert=/etc/pki/tls/certs/ca-bundle.crt   
 
 Теперь можно устанавливать  
 ``yum install grafana``  
-- отвечая "y" на все запросы  
+*- отвечая "y" на все запросы*  
 
-### Настройка брандмауэра  
+#### Настройка брандмауэра  
 По умолчанию, Grafana работает на порту 3000. Для возможности подключиться к серверу открываем данный порт в фаерволе:  
 
 ``firewall-cmd --permanent --add-port=3000/tcp``  
 ``firewall-cmd --reload``  
 
-### Запуск сервиса  
+#### Запуск сервиса  
 Разрешаем автозапуск  
 ``systemctl enable grafana-server``  
+
 Запускаем  
 ``systemctl start grafana-server``  
 
@@ -195,11 +206,13 @@ sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 name: Prometheus  
 url: http://localhost:9090  
 Access: Server (default)  
-* в данном примере мы оставили имя Prometheus и указали в качестве адреса локальный сервер (localhost). В случае, если графана и прометеус находятся на разных серверах, необходимо указать IP-адреса сервера Prometheus.  
-Сохраняем настройки, кликнув по Save & Test  
+*в данном примере мы оставили имя Prometheus и указали в качестве адреса локальный сервер (localhost).*   
+*В случае, если графана и прометеус находятся на разных серверах, необходимо указать IP-адреса сервера Prometheus.*  
+
+Сохраняем настройки, кликнув по Save & Test.  
 Если мы все сделали правильно, система покажет сообщение «Data source is working»  
 
-### Создание dashboard   
+#### Создание dashboard   
 Переходим по Dashboard/New Dashboard/Add New Panel для создания новой панели
 В качестве источника данных выбираем созданный ранее Prometheus
 выбираем конкретные параметры и тип графика. После сохраняем настройку
