@@ -36,6 +36,7 @@ TCP 9100 — для node_exporter
 Создадим каталоги, по которым распределим файлы Prometheus  
 ``mkdir /etc/prometheus``  
 ``mkdir /var/lib/prometheus``  
+
 Распакуем архив  
 ``tar xvf prometheus-2.37.0.linux-amd64.tar.gz``  
 
