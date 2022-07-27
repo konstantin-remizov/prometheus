@@ -213,6 +213,8 @@ Access: Server (default)
 Если мы все сделали правильно, система покажет сообщение «Data source is working»  
 
 #### Создание dashboard   
-Переходим по Dashboard/New Dashboard/Add New Panel для создания новой панели
-В качестве источника данных выбираем созданный ранее Prometheus
-выбираем конкретные параметры и тип графика. После сохраняем настройку
+Используем готовый Node Exporter Full с сайта grafana: https://grafana.com/grafana/dashboards/1860  
+Переходим по Dashboard/New Dashboard/import  
+В качестве источника данных выбираем созданный ранее Prometheus  
+В строке *Import via grafana.com* вводим ID Node Exporter Full - 1860  
+Сохраняем результаты.
