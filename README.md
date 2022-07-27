@@ -29,7 +29,8 @@ TCP 9100 — для node_exporter
 #### Отключим Selinux  
 ``setenforce 0``  
 
-### Установка Prometheus  
+## Установка Prometheus  
+
 С официальной страницы загрузки копируем подходящую нам ссылку и скачиваем:  
 ``wget https://github.com/prometheus/prometheus/releases/download/v2.37.0/prometheus-2.37.0.linux-amd64.tar.gz``
 
