@@ -69,6 +69,7 @@ TCP 9100 — для node_exporter
 *- должна загрузиться консоль Prometheus*  
 
 #### Автозапуск  
+
 Для настройки автоматического старта Prometheus создадим новый юнит в systemd  
 ``vi /etc/systemd/system/prometheus.service``
 
@@ -127,7 +128,8 @@ TCP 9100 — для node_exporter
 Задаем владельца для исполняемого файла  
 ``chown -R nodeusr:nodeusr /usr/local/bin/node_exporter``  
 
-#### Автозапуск
+#### Автозапуск  
+
 Создаем файл node_exporter.service в systemd  
 ``vi /etc/systemd/system/node_exporter.service``  
 
@@ -163,6 +165,7 @@ TCP 9100 — для node_exporter
 ## Установка Grafana  
 
 Создаем файл конфигурации репозитория для графаны  
+
 ``vi /etc/yum.repos.d/grafana.repo``  
 
 >[grafana]  
