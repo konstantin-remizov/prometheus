@@ -72,23 +72,23 @@ TCP 9100 — для node_exporter
 Для настройки автоматического старта Prometheus создадим новый юнит в systemd  
 ``vi /etc/systemd/system/prometheus.service``
 
->[Unit]
->Description=Prometheus Service
->After=network.target
->
->[Service]
->User=prometheus
->Group=prometheus
->Type=simple
->ExecStart=/usr/local/bin/prometheus \
->--config.file /etc/prometheus/prometheus.yml \
->--storage.tsdb.path /var/lib/prometheus/ \
->--web.console.templates=/etc/prometheus/consoles \
->--web.console.libraries=/etc/prometheus/console_libraries
->ExecReload=/bin/kill -HUP $MAINPID
->Restart=on-failure
->
->[Install]
+>[Unit]  
+>Description=Prometheus Service  
+>After=network.target  
+>  
+>[Service]  
+>User=prometheus  
+>Group=prometheus  
+>Type=simple  
+>ExecStart=/usr/local/bin/prometheus \  
+>--config.file /etc/prometheus/prometheus.yml \  
+>--storage.tsdb.path /var/lib/prometheus/ \  
+>--web.console.templates=/etc/prometheus/consoles \  
+>--web.console.libraries=/etc/prometheus/console_libraries  
+>ExecReload=/bin/kill -HUP $MAINPID  
+>Restart=on-failure  
+>  
+>[Install]  
 >WantedBy=multi-user.target  
 
 Перечитываем конфигурацию systemd  
