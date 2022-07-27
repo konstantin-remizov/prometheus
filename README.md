@@ -11,12 +11,12 @@
 
 ## Подготовка сервера  
 Настроим некоторые параметры сервера, необходимые для правильно работы системы.
-### Время  
+#### Время  
 ``yum install chrony``  
 ``systemctl enable chronyd``  
 ``systemctl start chronyd``  
 
-### При использовании фаервола необходимо открыть порты:  
+#### При использовании фаервола необходимо открыть порты:  
 
 TCP 9090 — http для сервера прометеус  
 TCP 9093 — http для алерт менеджера  
@@ -26,7 +26,7 @@ TCP 9100 — для node_exporter
 ``firewall-cmd --permanent --add-port=9090/tcp --add-port=9093/tcp --add-port=9094/{tcp,udp} --add-port=9100/tcp``  
 ``firewall-cmd --reload``
 
-### Отключим Selinux  
+#### Отключим Selinux  
 ``setenforce 0``  
 
 ### Установка Prometheus  
@@ -36,7 +36,7 @@ TCP 9100 — для node_exporter
 Создадим каталоги, по которым распределим файлы Prometheus  
 ``mkdir /etc/prometheus``  
 ``mkdir /var/lib/prometheus``  
-Распакуем архив
+Распакуем архив  
 ``tar xvf prometheus-2.37.0.linux-amd64.tar.gz``  
 
 Перейдем в каталог с распакованными файлами  
@@ -46,7 +46,7 @@ TCP 9100 — для node_exporter
 ``cp prometheus promtool /usr/local/bin/``  
 ``cp -r console_libraries consoles prometheus.yml /etc/prometheus``  
 
-### Назначение прав
+#### Назначение прав
 Создаем пользователя, от которого будем запускать систему мониторинга  
 ``useradd --no-create-home --shell /bin/false prometheus``  
 * мы создали пользователя "prometheus" без домашней директории и без возможности входа в консоль сервера.  
@@ -57,7 +57,7 @@ TCP 9100 — для node_exporter
 Задаем владельца для скопированных файлов  
 ``chown prometheus:prometheus /usr/local/bin/{prometheus,promtool}``
 
-### Запуск и проверка  
+#### Запуск и проверка  
 
 Запускаем prometheus командой:
 
@@ -65,9 +65,9 @@ TCP 9100 — для node_exporter
 
 Открываем веб-браузер и переходим по адресу  
 ``http://<IP-адрес сервера>:9090``
-Должна загрузиться консоль Prometheus  
+*Должна загрузиться консоль Prometheus*  
 
-### Автозапуск  
+#### Автозапуск  
 Для настройки автоматического старта Prometheus создадим новый юнит в systemd  
 ``vi /etc/systemd/system/prometheus.service``
 
